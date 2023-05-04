@@ -152,20 +152,22 @@ void printList(headNode* h) {
 
 	printf("\n---PRINT\n");
 
+	//리스트가 비어있을 시 아무것도 출력하지 않고 함수 종료
 	if(h == NULL) {
 		printf("Nothing to print....\n");
 		return;
 	}
 
+	//리스트의 첫번째 노드를 가리키는 포인터 p를 h->first로 초기화
 	p = h->first;
 
-	while(p != NULL) {
-		printf("[ [%d]=%d ] ", i, p->key);
-		p = p->rlink;
-		i++;
+	while(p != NULL) { //p가 NULL이 아닐 때까지 반복
+		printf("[ [%d]=%d ] ", i, p->key); //키 값과 인덱스 값 출력
+		p = p->rlink; //다음 노드로 변경
+		i++; //인덱스 값 증
 	}
 
-	printf("  items = %d\n", i);
+	printf("  items = %d\n", i); //리스트에 저장된 노드 수 출력
 }
 
 
@@ -277,15 +279,15 @@ int invertList(headNode* h) {
 	listNode *trail = NULL; //전 값을 NULL로 초기화
 	listNode *middle = NULL; //중간 값을 NULL로 초기화
 	
-	while(n != NULL){
-		trail = middle;
-		middle = n;
-		n = n -> rlink;
-		middle->rlink = trail;
-		middle -> llink = n;
+	while(n != NULL){ //n이 NULL이 아닐 때까지
+		trail = middle; //trail에 middle값 저장
+		middle = n; //middle에 현재 노드 저장
+		n = n -> rlink; //n을 다음 노드로 이동
+		middle->rlink = trail; //middle의 우측 노드를 이전 노드로 설정
+		middle -> llink = n; //middle의 좌측 노드를 다음 노드로 설정
 	}
 
-	h->first = middle;
+	h->first = middle; //리스트의 첫번째 노드를 middle로 설정
 
 	return 0;
 }
@@ -358,3 +360,37 @@ int deleteNode(headNode* h, int key) {
 }
 
 
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int i, j, count=1;
+
+	printf("행과 열을 입력하시오: ");
+	scanf("%d %d", &i, &j);
+
+	int **matrix = (int **)malloc(i*sizeof(int*));
+	for(int r=0; r<i; r++){
+		matrix[r]=(int *)malloc(j*sizeof(int));
+	}
+
+	for(int r=0; r<i; r++){
+		for(int c=0; c<j; c++){
+			matrix[r][c]=count;
+			count++;
+		}
+	}
+
+	for(int r=0; r<i; r++){
+		for(int c=0; c<j; c++){
+			printf("%d ", matrix[r][c]);
+		}
+	}
+
+	for(int r=0; r<i; r++){
+		free(matrix[r]);
+	}
+	free(matrix);
+	
+}
